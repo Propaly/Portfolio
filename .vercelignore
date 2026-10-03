@@ -1,0 +1,9 @@
+# Keep OpenDesign export metadata and dev-only files out of the deployment.
+DESIGN-HANDOFF.md
+DESIGN-MANIFEST.json
+README.md
+Portrait.png
+Yuliyan_Nikolaev_CV.docx
+.gitignore
+.vercelignore
+*.zip
