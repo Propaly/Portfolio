@@ -1,67 +1,78 @@
 # Yuliyan Nikolaev — Portfolio
 
 A single-page static portfolio (People Lead, SAP Commerce Cloud Operations).
-No build step, no framework — plain HTML/CSS/JS, deployable to Vercel as a static site.
+No build step, no framework — plain HTML/CSS/JS, hosted on **GitHub Pages**.
 
 ## Structure
 
 ```
 .
-├── index.html                          # the site (all CSS + JS inline)
-├── favicon.svg                         # monogram favicon
+├── index.html      # the site (all CSS + JS + hero portrait inlined)
+├── favicon.svg     # monogram favicon
 ├── robots.txt
-├── vercel.json                         # caching + security headers
+├── .nojekyll       # tells GitHub Pages to skip Jekyll processing
 ├── assets/
-│   └── yuliyan-nikolaev-portrait.jpg   # hero portrait
-├── DESIGN-HANDOFF.md                   # OpenDesign export notes (not deployed)
-├── DESIGN-MANIFEST.json                # OpenDesign export notes (not deployed)
-├── Portrait.png                        # source asset (not deployed)
-└── Yuliyan_Nikolaev_CV.docx            # source CV (not deployed)
+│   └── yuliyan-nikolaev-portrait.jpg   # social-preview (og/twitter) image
+└── README.md
 ```
 
-`.vercelignore` keeps the OpenDesign export notes, source assets, and this README
-out of the deployment so only the site is published.
+There is **no build step**: GitHub Pages serves these files as-is, so what you
+see in this folder is exactly what gets published.
 
-## Deploy to Vercel
+## Publish to GitHub Pages
 
-### Option A — Vercel CLI (fastest)
+### 1. Push the repo to GitHub
 
-```bash
-npx vercel        # first run: follow the login prompt, accept defaults
-npx vercel --prod # promote to your production URL
-npx vercel        # preview deploys from then on
-```
-
-When asked for settings, accept the defaults: Vercel detects a static site with
-`index.html` at the root. **Framework preset: Other / Vercel static**, no build
-command, no output directory.
-
-### Option B — Git + Vercel dashboard
+From this folder:
 
 ```bash
 git add -A
-git commit -m "Prepare portfolio for Vercel"
-git remote add origin https://github.com/<you>/<repo>.git
-git push -u origin master
+git commit -m "Switch portfolio to GitHub Pages"
+git branch -M main
+git remote add origin https://github.com/<username>/<repo>.git
+git push -u origin main
 ```
 
-Then in the Vercel dashboard: **Add New → Project → Import** the repo and deploy.
-Leave the framework preset and build settings at their defaults.
+(If the remote already exists, use `git remote set-url origin <url>` instead of
+`git remote add`.)
 
-### Option C — Drag and drop
+### 2. Turn on GitHub Pages
 
-Drop this folder onto <https://vercel.com/new> and deploy.
+1. Open the repo on GitHub.
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment → Source**, choose **Deploy from a branch**.
+4. Set **Branch** to `main` and the folder to **`/ (root)`**, then **Save**.
 
-## After the first deploy
+Give it a minute. The site goes live at one of:
 
-1. Add a custom domain in **Project → Settings → Domains**.
-2. Give rich link previews real absolute URLs: in `index.html`, set `og:url`
-   to `https://<your-domain>/` and update the `og:image` / `twitter:image`
-   values to `https://<your-domain>/assets/yuliyan-nikolaev-portrait.jpg`, then
-   redeploy. (`link rel="canonical"` can be updated the same way.)
-3. Optionally link the CV: add a `Download CV` button pointing at the deployed
-   `Yuliyan_Nikolaev_CV.docx` (remove it from `.vercelignore` first so it is
-   uploaded).
+- `https://<username>.github.io/<repo>/` — for a normal repo (project page)
+- `https://<username>.github.io/` — if the repo is named `<username>.github.io`
+
+All paths in `index.html` are relative, so both URL shapes work.
+
+### 3. (Optional) Rich link previews
+
+After the URL is known, open `index.html` and replace the `og:image` /
+`twitter:image` values with the full absolute URL, e.g.
+
+```
+https://<username>.github.io/<repo>/assets/yuliyan-nikolaev-portrait.jpg
+```
+
+and uncomment the `canonical` / `og:url` lines with your real URL. Commit and
+push — Pages redeploys automatically.
+
+## Updating the site
+
+Edit `index.html`, then:
+
+```bash
+git add -A
+git commit -m "Update portfolio"
+git push
+```
+
+GitHub Pages rebuilds automatically on every push to `main`.
 
 ## Local preview
 
